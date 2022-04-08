@@ -26,7 +26,7 @@ const HomeTitle: NextPage = () => {
                 >
                     <div className="relative">
                         <div className="flex items-center">
-                            <div className=" bg-gradient-to-b from-indigo-400 to-purple-400 rounded-lg">
+                            <div className=" bg-gradient-to-b from-indigo-400 to-purple-400 rounded-full">
                                 <p className="w-64 h-10 text-base font-medium text-center text-white flex justify-center items-center ">
                                     Создать свою станцию
                                 </p>

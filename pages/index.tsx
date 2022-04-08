@@ -8,13 +8,15 @@ import styles from '../styles/Home.module.css'
 const Home: NextPage = () => {
   return (
 
-    <div>
-      <div className="flex flex-row items-center justify-center">
+    <div className='relative pl-36 pr-36'>
+      <div className='pt-56 absolute flex justify-start z-10'>
         <HomeTitle />
+      </div>
+      <div className='absolute inset-y-0 right-0 z-0'>
         <RadioImage />
       </div>
+    </div >
 
-    </div>
   )
 }
 

@@ -7,6 +7,7 @@ import RadioImage from '../components/home/RadioImage'
 import Menu from '../components/navbar/menu'
 import Title from '../components/navbar/Title'
 import styles from '../styles/Home.module.css'
+import Link from 'next/link'
 const Home: NextPage = () => {
   return (
     <>
@@ -120,26 +121,31 @@ const Home: NextPage = () => {
                   выживальщика и туриста, и даже для простых развлечений.
                 </span>
               </p>
-              <div className="frame-1-Nnsh9L" data-id="74390:16607">
-                <div
-                  className="buttons-primary-normal-1xSxhw"
-                  data-id="74390:16608"
-                >
-                  <img
-                    className="bg-ezEwyA"
-                    data-id="I74390:16608;5:140"
-                    src="./home_files/bg@2x.svg"
-                    anima-src="https://cdn.animaapp.com/projects/617e6a51b89752441010802c/releases/628630e013d0ce8d341688b1/img/bg@2x.svg"
-                  />
+              <Link href="/input">
+
+                <button className="frame-1-Nnsh9L" data-id="74390:16607">
                   <div
-                    className="label-ezEwyA valign-text-middle"
-                    data-id="I74390:16608;5:141"
+                    className="buttons-primary-normal-1xSxhw"
+                    data-id="74390:16608"
                   >
-                    Создать канал для рации
+                    <img
+                      className="bg-ezEwyA"
+                      data-id="I74390:16608;5:140"
+                      src="./home_files/bg@2x.svg"
+                      anima-src="https://cdn.animaapp.com/projects/617e6a51b89752441010802c/releases/628630e013d0ce8d341688b1/img/bg@2x.svg"
+                    />
+                    <div
+                      className="label-ezEwyA valign-text-middle"
+                      data-id="I74390:16608;5:141"
+                    >
+                      Создать канал для рации
+                    </div>
                   </div>
-                </div>
-              </div>
+                </button>
+
+              </Link>
             </div>
+
             <img
               className="image-5-GKhlYi"
               data-id="74390:16728"

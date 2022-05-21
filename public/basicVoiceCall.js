@@ -1,4 +1,27 @@
 function StartConnect() {
+    // Fetch a token from the Golang server.
+    function fetchToken(uid, channelName, tokenRole) {
+
+        return new Promise(function (resolve) {
+            axios.post('http://give-token-for-voice-auth.herokuapp.com/fetch_rtc_token', {
+                uid: uid,
+                channelName: channelName,
+                role: tokenRole
+            }, {
+                headers: {
+                    'Content-Type': 'application/json; charset=UTF-8'
+                }
+            })
+                .then(function (response) {
+                    const token = response.data.token;
+                    resolve(token);
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        })
+    }
+
     /*
      *  These procedures use Agora Voice Call SDK for Web to enable local and remote
      *  users to join and leave a Voice Call channel managed by Agora Platform.
@@ -74,14 +97,23 @@ function StartConnect() {
      * entered in the form and calls join asynchronously. The UI is updated to match the options entered
      * by the user.
      */
+    function RandomNumber() {
+        return Math.floor(Math.random() * 1000000)
+    }
     async function connect(e) {
         try {
-            options.appid = "aa6a5cb4cf69415da44bee880df16203";
-            options.token = "006aa6a5cb4cf69415da44bee880df16203IACO2yhshYfPcFVK3sREPYqs+9+oHpSSvKInjDbI5uzXBKd/JM4AAAAAEABCwUE+M7yIYgEAAQAyvIhi";
-            // options.channel = $("#number").val();
-            options.channel = "RadioIT";
 
-            options.uid = Number($("#uid").val());
+
+            options.appid = "aa6a5cb4cf69415da44bee880df16203";
+
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+            options.token = await fetchToken(options.uid, urlParams.get('number'), 1);
+            // options.channel = $("#number").val();
+
+            options.channel = urlParams.get('number');
+            options.uid = RandomNumber();
+
             await join();
             if (options.token) {
                 $("#success-alert-with-token").css("display", "block");

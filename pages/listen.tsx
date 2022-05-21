@@ -14,6 +14,7 @@ const Listen: NextPage = () => {
             <meta httpEquiv="Content-Type" content="text/html; charset=UTF-8" />
             <Script src="../assets/jquery-3.4.1.min.js"></Script>
             <Script src="https://download.agora.io/sdk/release/AgoraRTC_N.js"></Script>
+            <Script src="https://unpkg.com/axios/dist/axios.min.js"></Script>
             <Script src="./basicVoiceCall.js"></Script>
             <style
                 id="st_globalStyles"

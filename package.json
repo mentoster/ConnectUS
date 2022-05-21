@@ -6,8 +6,7 @@
 		"dev": "next dev",
 		"start": "next --openssl-legacy-provider start",
 		"lint": "next lint",
-		"build": "webpack --config webpack.config.js",
-		"start:dev": "webpack serve --open --config webpack.config.js"
+		"build": "next build && next export"
 	},
 	"dependencies": {
 		"daisyui": "^2.13.6",

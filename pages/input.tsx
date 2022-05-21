@@ -1,6 +1,14 @@
 import type { NextPage } from 'next'
+import { useCallback, useEffect } from 'react'
+import { useRouter } from 'next/router'
 
 const Input: NextPage = () => {
+    const router = useRouter()
+    const handleSubmit = useCallback((e: any) => {
+        e.preventDefault()
+        router.push({ pathname: '/listen', query: { number: e.target.number.value } })
+
+    }, [router])
     return (
         <>
             <meta httpEquiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -86,9 +94,9 @@ const Input: NextPage = () => {
                         <div className="x-99dHye h2regular-30px" data-id="74390:16794">
                             Частота:
                         </div>
-                        <form action="/listen" method="get" >
+                        <form onSubmit={handleSubmit} >
                             <input
-                            
+
                                 type="number"
                                 id="number"
                                 name="number"

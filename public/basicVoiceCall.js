@@ -1,9 +1,81 @@
 function StartConnect() {
+
+    async function fetchGraphQL(operationsDoc, operationName, variables) {
+        const result = await fetch(
+            "https://conenctusbackend.herokuapp.com/v1/graphql",
+            {
+                method: "POST",
+                headers: {
+                    "x-hasura-admin-secret": "82bebifa"
+                },
+                body: JSON.stringify({
+                    query: operationsDoc,
+                    variables: variables,
+                    operationName: operationName
+                })
+            }
+        );
+
+        return await result.json();
+    }
+    const ip = ReturnCurrentIP()["ip"];
+    const date = GetCurrentDateTime().toString();
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const channel = urlParams.get('number')
+    const operationsDoc = `
+  mutation MyMutation {
+    insert_UsersHistory(objects: {UserChannel: "`+ channel + `", UserIP: "` + ip + `", UserTime: "` + date + `"}) {
+      affected_rows
+    }
+  }
+`;
+
+    function executeMyMutation() {
+        return fetchGraphQL(
+            operationsDoc,
+            "MyMutation",
+            {}
+        );
+    }
+
+    async function startExecuteMyMutation() {
+        const { errors, data } = await executeMyMutation();
+
+        if (errors) {
+            // handle those errors like a pro
+            console.error(errors);
+        }
+
+        // do something great with this precious data
+        console.log(data);
+    }
+
+
+
+    async function ReturnCurrentIP() {
+        return await $.ajax({
+            type: "GET",
+            url: "https://api.ipify.org?format=json",
+            async: false
+        }).responseJSON;
+    }
+    // get current data and time
+    function GetCurrentDateTime() {
+        var currentdate = new Date();
+        var datetime = currentdate.getDate() + "/"
+            + (currentdate.getMonth() + 1) + "/"
+            + currentdate.getFullYear() + " @ "
+            + currentdate.getHours() + ":"
+            + currentdate.getMinutes() + ":"
+            + currentdate.getSeconds();
+        return datetime;
+    }
     // Fetch a token from the Golang server.
     function fetchToken(uid, channelName, tokenRole) {
 
         return new Promise(function (resolve) {
-            axios.post('http://give-token-for-voice-auth.herokuapp.com/fetch_rtc_token', {
+            axios.post('https://give-token-for-voice-auth.herokuapp.com/fetch_rtc_token', {
                 uid: uid,
                 channelName: channelName,
                 role: tokenRole
@@ -102,10 +174,7 @@ function StartConnect() {
     }
     async function connect(e) {
         try {
-
-
             options.appid = "aa6a5cb4cf69415da44bee880df16203";
-
             const queryString = window.location.search;
             const urlParams = new URLSearchParams(queryString);
             options.token = await fetchToken(options.uid, urlParams.get('number'), 1);
@@ -113,7 +182,7 @@ function StartConnect() {
 
             options.channel = urlParams.get('number');
             options.uid = RandomNumber();
-
+            startExecuteMyMutation();
             await join();
             if (options.token) {
                 $("#success-alert-with-token").css("display", "block");
@@ -126,8 +195,12 @@ function StartConnect() {
         } finally {
             console.log("connected");
         }
+
     }
-    connect()
+    async function refreshToken() {
+        options.token = await fetchToken(options.uid, urlParams.get('number'), 1);
+    }
+    var t = setInterval(refreshToken, 5000);
     /*
      * Called when a user clicks Leave in order to exit a channel.
      */
